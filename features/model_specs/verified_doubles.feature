@@ -11,7 +11,7 @@ Feature: verified doubles
 
       RSpec.describe Widget, :type => :model do
         it "has one after adding one" do
-          instance_double("Widget", name: "my name")
+          instance_double("Widget", :name => "my name")
         end
       end
       """
