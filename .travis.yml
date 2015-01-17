@@ -1,5 +1,22 @@
 language: ruby
 
+sudo: false
+
+cache:
+  directories:
+    - ../bundle
+
+bundler_args: "--binstubs --without documentation --path ../bundle --retry=3 --jobs=3"
+
+before_install: "script/clone_all_rspec_repos"
+
+before_script:
+  # Rails 4.x complains with a bundler rails binstub in PROJECT_ROOT/bin/
+  - rm -f bin/rails
+  - bundle exec rails --version
+
+script: "script/run_build 2>&1"
+
 rvm:
   - 1.8.7
   - 2.2
@@ -19,19 +36,6 @@ env:
   - RAILS_VERSION=3-2-stable
   - RAILS_VERSION='~> 3.1.12'
   - RAILS_VERSION='~> 3.0.20'
-
-sudo: false
-
-bundler_args: "--binstubs --without documentation --path ../bundle --retry=3 --jobs=3"
-
-before_install: "script/clone_all_rspec_repos"
-
-before_script:
-  # Rails 4.x complains with a bundler rails binstub in PROJECT_ROOT/bin/
-  - rm -f bin/rails
-  - bundle exec rails --version
-
-script: "script/run_build 2>&1"
 
 matrix:
   exclude:
